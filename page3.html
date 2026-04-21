@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Halaman Akhir — PDW</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root {
+      --bg: #0d0d0d;
+      --card: #161616;
+      --accent: #c8f03d;
+      --accent2: #ff6b35;
+      --text: #f0ede6;
+      --muted: #888;
+      --border: #2a2a2a;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+
+      min-height: 100vh;
+      padding: 40px 20px;
+
+      /* FIX UTAMA SCROLL */
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      overflow-x: hidden;
+      overflow-y: auto;
+
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(200,240,61,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200,240,61,0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+
+    .blob1 {
+      position: fixed;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(200,240,61,0.06) 0%, transparent 70%);
+      top: -100px; left: -100px;
+      pointer-events: none;
+    }
+
+    .blob2 {
+      position: fixed;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,107,53,0.06) 0%, transparent 70%);
+      bottom: -100px; right: -100px;
+      pointer-events: none;
+    }
+
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 560px;
+      padding-bottom: 60px; /* FIX tambahan biar aman bawah */
+    }
+
+    .deco-num {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(80px, 20vw, 140px);
+      font-weight: 700;
+      color: rgba(200,240,61,0.05);
+      line-height: 1;
+      margin-bottom: -20px;
+      user-select: none;
+    }
+
+    .tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 7vw, 3.4rem);
+      font-weight: 800;
+      line-height: 1.05;
+      margin-bottom: 8px;
+    }
+
+    h1 em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    .divider {
+      width: 48px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 2px;
+      margin: 24px 0;
+    }
+
+    .info-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 16px;
+    }
+
+    .info-card p {
+      font-size: 15px;
+      line-height: 1.8;
+      color: #c0bdb6;
+    }
+
+    .info-card p strong {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .stats-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .stat-box {
+      flex: 1;
+      min-width: 100px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 16px;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .stat-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-top: 6px;
+    }
+
+    .quote-block {
+      background: #0a0a0a;
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      padding: 20px 24px;
+      margin-bottom: 16px;
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+      line-height: 1.8;
+      color: var(--muted);
+    }
+
+    .btn-alert {
+      width: 100%;
+      background: var(--accent2);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    #ig-link {
+      display: none;
+      margin-top: 20px;
+    }
+
+    .ig-card {
+      background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+      border-radius: 14px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .ig-inner {
+      background: rgba(0,0,0,0.35);
+      border-radius: 10px;
+      padding: 20px;
+    }
+
+    .ig-btn {
+      background: #fff;
+      color: #833ab4;
+      padding: 12px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      display: inline-block;
+    }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 28px;
+      color: var(--muted);
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="blob1"></div>
+  <div class="blob2"></div>
+
+  <div class="wrapper">
+
+    <div class="deco-num">03</div>
+
+    <div class="tag">// Halaman Terakhir</div>
+
+    <h1>Hampir<br/><em>Selesai.</em> 🎉</h1>
+
+    <div class="divider"></div>
+
+    <div class="info-card">
+      <p>
+        Selamat! Kamu telah berhasil menyelesaikan seluruh alur aplikasi ini.<br/><br/>
+        Ini adalah halaman ketiga dari project <strong>PDW</strong> yang menggunakan HTML, CSS, JS, dan Bootstrap.
+      </p>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Halaman</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">4</div>
+        <div class="stat-label">Input Types</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">✓</div>
+        <div class="stat-label">Bootstrap</div>
+      </div>
+    </div>
+
+    <div class="quote-block">
+      💡 <strong>Tip:</strong> Terus belajar dan eksplorasi web development.
+    </div>
+
+    <button class="btn-alert" onclick="handleLanjut()">
+      🚀 Klik Lanjut
+    </button>
+
+    <div id="ig-link">
+      <div class="ig-card">
+        <div class="ig-inner">
+          <div class="ig-handle">Instagram</div>
+          <a href="https://www.instagram.com/your_username" target="_blank" class="ig-btn">
+            @your_username
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <a href="index.html" class="back-link">← Kembali ke login</a>
+
+  </div>
+
+  <script>
+    function handleLanjut() {
+      const ok = confirm("Lanjut ke Instagram?");
+      if (ok) {
+        document.getElementById('ig-link').style.display = 'block';
+        document.getElementById('ig-link').scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  </script>
+
+</body>
+</html>
