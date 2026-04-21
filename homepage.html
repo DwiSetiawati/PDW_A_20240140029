@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Homepage — PDW</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0d0d0d;
+      --card: #161616;
+      --accent: #c8f03d;
+      --accent2: #ff6b35;
+      --text: #f0ede6;
+      --muted: #888;
+      --border: #2a2a2a;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      min-height: 100vh;
+      padding: 40px 20px 80px;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(200,240,61,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200,240,61,0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container { position: relative; z-index: 1; max-width: 640px; }
+
+    /* Hero greeting */
+    .hero {
+      padding: 48px 0 40px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 40px;
+    }
+
+    .tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .greeting {
+      font-size: clamp(2rem, 7vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1.1;
+    }
+
+    .greeting span.name {
+      color: var(--accent);
+      position: relative;
+      display: inline-block;
+    }
+
+    .greeting span.name::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--accent2);
+      border-radius: 2px;
+    }
+
+    .hero-sub {
+      color: var(--muted);
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+      margin-top: 14px;
+    }
+
+    /* Info chip */
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .chip {
+      background: #1e1e1e;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .chip span { color: var(--text); }
+
+    /* Form card */
+    .form-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px 32px;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .form-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent2), var(--accent));
+    }
+
+    .q-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--accent2);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .q-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    /* Checkbox custom */
+    .check-group { display: flex; flex-direction: column; gap: 10px; }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: #1e1e1e;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .check-item:hover { border-color: var(--accent); background: #222; }
+
+    .check-item input[type="checkbox"] {
+      width: 18px; height: 18px;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    .check-item label {
+      font-size: 14px;
+      cursor: pointer;
+      margin: 0;
+      font-family: 'Space Mono', monospace;
+    }
+
+    /* Dropdown */
+    .form-select {
+      background-color: #1e1e1e;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23c8f03d' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-family: 'Space Mono', monospace;
+      font-size: 14px;
+      width: 100%;
+      appearance: none;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .form-select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(200,240,61,0.12);
+    }
+
+    .form-select option { background: #1e1e1e; color: var(--text); }
+
+    /* Radio */
+    .radio-group { display: flex; flex-direction: column; gap: 10px; }
+
+    .radio-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: #1e1e1e;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .radio-item:hover { border-color: var(--accent); background: #222; }
+
+    .radio-item input[type="radio"] {
+      width: 18px; height: 18px;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    .radio-item label {
+      font-size: 14px;
+      cursor: pointer;
+      margin: 0;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .invalid-msg {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--accent2);
+      margin-top: 8px;
+      display: none;
+    }
+
+    /* Submit button */
+    .btn-submit {
+      width: 100%;
+      background: var(--accent);
+      color: #0d0d0d;
+      border: none;
+      border-radius: 10px;
+      padding: 16px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(200,240,61,0.3);
+    }
+
+    /* Result card */
+    #result-card {
+      background: var(--card);
+      border: 1px solid var(--accent);
+      border-radius: 16px;
+      padding: 36px 32px;
+      display: none;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .result-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .result-title {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 24px;
+    }
+
+    .result-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 16px;
+      background: #1e1e1e;
+      border-radius: 10px;
+      margin-bottom: 12px;
+    }
+
+    .result-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .result-value {
+      font-family: 'Space Mono', monospace;
+      font-size: 14px;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .btn-lanjut {
+      width: 100%;
+      background: transparent;
+      color: var(--accent);
+      border: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 15px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 1px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background 0.2s, color 0.2s, transform 0.15s;
+      display: none;
+    }
+
+    .btn-lanjut:hover {
+      background: var(--accent);
+      color: #0d0d0d;
+      transform: translateY(-2px);
+    }
+
+    #link-next {
+      display: none;
+      margin-top: 20px;
+      padding: 16px;
+      background: #1e1e1e;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    #link-next a {
+      color: var(--accent);
+      text-decoration: none;
+      font-family: 'Space Mono', monospace;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    #link-next a:hover { text-decoration: underline; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-in { animation: fadeUp 0.6s ease both; }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+  </style>
+</head>
+<body>
+  <div class="container mx-auto">
+
+    <!-- Hero -->
+    <div class="hero animate-in">
+      <div class="tag">// Homepage</div>
+      <div class="greeting">
+        Halo, <span class="name" id="nama-user">User</span>! 👋
+      </div>
+      <p class="hero-sub">Selamat datang di halaman utama. Jawab pertanyaan di bawah ini ya.</p>
+      <div class="chip-row">
+        <div class="chip">NIM: <span id="chip-nim">—</span></div>
+        <div class="chip">Email: <span id="chip-email">—</span></div>
+      </div>
+    </div>
+
+    <!-- Q1: Checkbox -->
+    <div class="form-card animate-in delay-1" id="card-q1">
+      <div class="q-num">// Pertanyaan 01 — Checkbox</div>
+      <div class="q-title">Teknologi apa yang kamu kuasai?</div>
+      <div class="check-group">
+        <label class="check-item">
+          <input type="checkbox" name="tech" value="HTML/CSS"/>
+          <label>HTML / CSS</label>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" name="tech" value="JavaScript"/>
+          <label>JavaScript</label>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" name="tech" value="Python"/>
+          <label>Python</label>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" name="tech" value="PHP"/>
+          <label>PHP</label>
+        </label>
+      </div>
+      <div class="invalid-msg" id="err-check">⚠ Pilih minimal satu teknologi</div>
+    </div>
+
+    <!-- Q2: Dropdown -->
+    <div class="form-card animate-in delay-2" id="card-q2">
+      <div class="q-num">// Pertanyaan 02 — Dropdown</div>
+      <div class="q-title">Semester berapa kamu sekarang?</div>
+      <select class="form-select" id="semester">
+        <option value="">— Pilih semester —</option>
+        <option value="Semester 1">Semester 1</option>
+        <option value="Semester 2">Semester 2</option>
+        <option value="Semester 3">Semester 3</option>
+        <option value="Semester 4">Semester 4</option>
+        <option value="Semester 5">Semester 5</option>
+        <option value="Semester 6">Semester 6</option>
+        <option value="Semester 7">Semester 7</option>
+        <option value="Semester 8">Semester 8</option>
+      </select>
+      <div class="invalid-msg" id="err-semester">⚠ Pilih semester terlebih dahulu</div>
+    </div>
+
+    <!-- Q3: Radio -->
+    <div class="form-card" id="card-q3">
+      <div class="q-num">// Pertanyaan 03 — Radio Button</div>
+      <div class="q-title">Seberapa sering kamu coding per hari?</div>
+      <div class="radio-group">
+        <label class="radio-item">
+          <input type="radio" name="coding" value="Kurang dari 1 jam"/>
+          <label>Kurang dari 1 jam</label>
+        </label>
+        <label class="radio-item">
+          <input type="radio" name="coding" value="1–3 jam"/>
+          <label>1–3 jam</label>
+        </label>
+        <label class="radio-item">
+          <input type="radio" name="coding" value="3–6 jam"/>
+          <label>3–6 jam</label>
+        </label>
+        <label class="radio-item">
+          <input type="radio" name="coding" value="Lebih dari 6 jam"/>
+          <label>Lebih dari 6 jam</label>
+        </label>
+      </div>
+      <div class="invalid-msg" id="err-radio">⚠ Pilih salah satu jawaban</div>
+    </div>
+
+    <button class="btn-submit" onclick="handleSubmit()">Submit Jawaban →</button>
+
+    <!-- Result -->
+    <div id="result-card" style="margin-top:24px;">
+      <div class="result-tag">// Hasil Jawaban Kamu</div>
+      <div class="result-title">Rekap Jawabanmu 📋</div>
+
+      <div class="result-item">
+        <span class="result-label">Teknologi yang dikuasai</span>
+        <span class="result-value" id="res-tech">—</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Semester</span>
+        <span class="result-value" id="res-semester">—</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Durasi coding per hari</span>
+        <span class="result-value" id="res-coding">—</span>
+      </div>
+
+      <button class="btn-lanjut" id="btn-lanjut" onclick="showLink()">Lanjutkan →</button>
+      <div id="link-next">
+        <a href="page3.html" target="_blank">🔗 Klik di sini untuk menuju halaman terakhir →</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Load user data
+    const user = JSON.parse(sessionStorage.getItem('user') || '{}');
+    if (!user.username) {
+      window.location.href = 'index.html';
+    }
+    document.getElementById('nama-user').textContent = user.username || 'User';
+    document.getElementById('chip-nim').textContent = user.nim || '—';
+    document.getElementById('chip-email').textContent = user.email || '—';
+
+    function handleSubmit() {
+      let valid = true;
+
+      // Validate checkbox
+      const checked = [...document.querySelectorAll('input[name="tech"]:checked')];
+      const errCheck = document.getElementById('err-check');
+      if (checked.length === 0) {
+        errCheck.style.display = 'block';
+        document.getElementById('card-q1').style.borderColor = 'var(--accent2)';
+        valid = false;
+      } else {
+        errCheck.style.display = 'none';
+        document.getElementById('card-q1').style.borderColor = 'var(--border)';
+      }
+
+      // Validate dropdown
+      const semester = document.getElementById('semester').value;
+      const errSem = document.getElementById('err-semester');
+      if (!semester) {
+        errSem.style.display = 'block';
+        document.getElementById('card-q2').style.borderColor = 'var(--accent2)';
+        valid = false;
+      } else {
+        errSem.style.display = 'none';
+        document.getElementById('card-q2').style.borderColor = 'var(--border)';
+      }
+
+      // Validate radio
+      const radio = document.querySelector('input[name="coding"]:checked');
+      const errRadio = document.getElementById('err-radio');
+      if (!radio) {
+        errRadio.style.display = 'block';
+        document.getElementById('card-q3').style.borderColor = 'var(--accent2)';
+        valid = false;
+      } else {
+        errRadio.style.display = 'none';
+        document.getElementById('card-q3').style.borderColor = 'var(--border)';
+      }
+
+      if (!valid) return;
+
+      // Show results
+      const techList = checked.map(c => c.value).join(', ');
+      document.getElementById('res-tech').textContent = techList;
+      document.getElementById('res-semester').textContent = semester;
+      document.getElementById('res-coding').textContent = radio.value;
+
+      const resultCard = document.getElementById('result-card');
+      resultCard.style.display = 'block';
+      document.getElementById('btn-lanjut').style.display = 'block';
+
+      // Save answers
+      sessionStorage.setItem('answers', JSON.stringify({ tech: techList, semester, coding: radio.value }));
+
+      resultCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function showLink() {
+      document.getElementById('link-next').style.display = 'block';
+      document.getElementById('btn-lanjut').textContent = '✔ Link sudah muncul di bawah';
+      document.getElementById('btn-lanjut').style.background = 'var(--accent)';
+      document.getElementById('btn-lanjut').style.color = '#0d0d0d';
+    }
+  </script>
+</body>
+</html>
